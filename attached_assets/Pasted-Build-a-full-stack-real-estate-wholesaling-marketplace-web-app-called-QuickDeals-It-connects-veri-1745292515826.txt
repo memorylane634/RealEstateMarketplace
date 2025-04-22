@@ -1,0 +1,112 @@
+Build a full-stack real estate wholesaling marketplace web app called “QuickDeals.” It connects verified wholesalers with verified cash buyers so they can assign contracts efficiently, safely, and legally. The platform includes full verification, contract handling, and a 7% commission on successful assignment deals.
+
+---
+
+### USER TYPES:
+
+1. **Wholesalers**
+   - Must upload:
+     - Government-issued ID
+     - Signed assignable purchase contract (PDF/image)
+     - Deal submission form (property info, seller name, address, asking price, etc.)
+   - Can post verified deals only after admin approval
+
+2. **Cash Buyers**
+   - Must upload:
+     - Government-issued ID
+     - Proof of Funds (PDF/image)
+     - Buying Criteria Form:
+       - Preferred location(s)
+       - Property types
+       - Budget range
+       - Cash or financing
+       - Exit strategy (flip, buy-and-hold, etc.)
+       - Closing time frame
+
+---
+
+### CORE FEATURES:
+
+1. **Home Page**
+   - Explains the QuickDeals process
+   - Benefits of using a verified marketplace
+   - CTA to sign up as buyer or wholesaler
+
+2. **Sign Up / Login**
+   - Email + password auth
+   - File uploads for verification (ID, contracts, proof of funds)
+   - Status indicator: “Pending Verification” → “Verified”
+
+3. **Admin Dashboard**
+   - Approve/deny user verification
+   - Review uploaded contracts and IDs
+   - View reported closed deals and uploaded proof
+
+4. **Wholesaler Dashboard**
+   - Post a Deal form:
+     - Address, price, assignment fee, repair cost, ARV, notes
+     - Upload contract + photos
+     - Must check “I agree to pay 7% commission on assignment”
+   - View active deals and deal status
+
+5. **Cash Buyer Dashboard**
+   - Browse verified deals with filters (price, location, property type)
+   - Save favorites
+   - “Contact Seller” button for verified users only
+
+6. **Deal Page**
+   - Property photos, details, pricing
+   - Seller contact form
+   - Optional contract preview (for verified buyers only)
+
+7. **Terms of Service (Page + Popup Agreement)**
+   - Must be accepted by all users
+   - Include:
+     - "Any contract assigned or closed through QuickDeals is subject to a 7% commission payable by the wholesaler.”
+     - “Users must report successful closings via our Deal Closed Form and submit valid proof (HUD-1 or closing statement).”
+     - “Failure to report and pay commission will result in account suspension or legal action.”
+
+8. **Deal Closed Reporting Form**
+   - Fields:
+     - Property address
+     - Buyer name
+     - Assignment fee received
+     - Upload proof (PDF/image)
+   - On submit:
+     - Send email notification to admin
+     - Auto-generate 7% commission invoice (template)
+
+9. **Invoice Generator**
+   - Generates downloadable invoice (PDF) to send via Stripe or PayPal
+   - Format:
+     - “Payable to: QuickDeals.io”
+     - Description: 7% commission on $[Assignment Fee]
+     - Amount Due: $[Assignment Fee * 0.07]
+     - Pay via: Stripe or PayPal links
+
+---
+
+### TECH STACK:
+
+- **Frontend:** HTML + Tailwind CSS + JavaScript or React
+- **Backend:** Node.js + Express
+- **Auth:** Email + password login
+- **Database:** MongoDB
+- **File Uploads:** Use Multer for ID, contracts, proof of funds, closing docs
+- **Email:** Nodemailer for notifications
+- **PDF Generation:** Use `pdfkit` or `html-pdf` for invoice creation
+- **Stripe & PayPal Buttons:** For manual or automated payment
+
+---
+
+### ACCESS RULES:
+
+- Unverified users cannot access deal pages or post listings
+- Wholesalers can only post if ID and contract are approved
+- Buyers can only contact sellers after proof of funds is verified
+- All users must accept Terms of Service with 7% commission clause before posting or viewing deals
+
+---
+
+Make the design clean, mobile-friendly, and fast. Use visual indicators for verification status and deal stage (e.g., Posted → Contacted → Under Contract → Closed).
+
