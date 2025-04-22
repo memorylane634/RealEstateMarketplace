@@ -1,7 +1,8 @@
-import type { Express, Request, Response } from "express";
+import express, { type Express, type Request, type Response } from "express";
 import { createServer, type Server } from "http";
 import { setupAuth } from "./auth";
 import { storage } from "./storage";
+import { registerAdminRoutes } from "./admin-routes";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
@@ -78,6 +79,9 @@ const isVerified = (req: Request, res: Response, next: any) => {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Set up authentication
   setupAuth(app);
+
+  // Register admin routes
+  registerAdminRoutes(app);
 
   // Serve uploaded files
   app.use("/uploads", express.static(uploadsDir));

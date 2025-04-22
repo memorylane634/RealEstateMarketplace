@@ -167,6 +167,10 @@ export class MemStorage implements IStorage {
     );
   }
   
+  async getVerificationDocument(id: number): Promise<VerificationDocument | undefined> {
+    return this.verificationDocuments.get(id);
+  }
+  
   async createVerificationDocument(doc: InsertVerificationDocument): Promise<VerificationDocument> {
     const id = this.verificationDocIdCounter++;
     const now = new Date();
@@ -332,6 +336,10 @@ export class MemStorage implements IStorage {
   }
   
   // Contact request methods
+  async getContactRequest(id: number): Promise<ContactRequest | undefined> {
+    return this.contactRequests.get(id);
+  }
+  
   async getContactRequestsByUser(userId: number): Promise<ContactRequest[]> {
     return Array.from(this.contactRequests.values()).filter(
       (request) => request.recipientId === userId || request.senderId === userId

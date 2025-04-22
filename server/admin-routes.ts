@@ -40,11 +40,16 @@ export function registerAdminRoutes(app: Express) {
   // Get all unverified buyers (users with type cash_buyer and not verified)
   app.get("/api/admin/buyers", isAdminPassword, async (req, res) => {
     try {
-      const users = Array.from((await storage.getUsers()) || [])
+      const allUsers = await storage.getUsers();
+      const users = Array.from(allUsers)
         .filter(user => user.userType === "cash_buyer" && !user.isVerified);
       
       // Filter out passwords
-      const usersWithoutPasswords = users.map(({ password, ...user }) => user);
+      const usersWithoutPasswords = users.map(user => {
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
+      });
+      
       res.json(usersWithoutPasswords);
     } catch (error) {
       res.status(500).json({ message: "Server error" });
@@ -54,11 +59,16 @@ export function registerAdminRoutes(app: Express) {
   // Get all unverified sellers (users with type wholesaler and not verified)
   app.get("/api/admin/sellers", isAdminPassword, async (req, res) => {
     try {
-      const users = Array.from((await storage.getUsers()) || [])
+      const allUsers = await storage.getUsers();
+      const users = Array.from(allUsers)
         .filter(user => user.userType === "wholesaler" && !user.isVerified);
       
       // Filter out passwords
-      const usersWithoutPasswords = users.map(({ password, ...user }) => user);
+      const usersWithoutPasswords = users.map(user => {
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
+      });
+      
       res.json(usersWithoutPasswords);
     } catch (error) {
       res.status(500).json({ message: "Server error" });
@@ -132,8 +142,9 @@ export function registerAdminRoutes(app: Express) {
     try {
       // We need to get all documents for all users - not implemented in storage
       // Let's get all users and for each user get their documents
-      const users = Array.from((await storage.getUsers()) || []);
-      let allDocuments = [];
+      const allUsers = await storage.getUsers();
+      const users = Array.from(allUsers);
+      let allDocuments: any[] = [];
       
       for (const user of users) {
         const userDocuments = await storage.getVerificationDocuments(user.id);
