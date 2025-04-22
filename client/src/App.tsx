@@ -10,10 +10,13 @@ import DashboardPage from "@/pages/dashboard-page";
 import DealsPage from "@/pages/deals-page";
 import DealDetailPage from "@/pages/deal-detail-page";
 import AdminPage from "@/pages/admin-page";
+import AdminDashboard from "@/pages/admin-dashboard";
+import AdminLoginPage from "@/pages/admin-login-page";
 import VerificationPage from "@/pages/verification-page";
 import TermsPage from "@/pages/terms-page";
 import { AuthProvider } from "@/hooks/use-auth";
 import { ProtectedRoute, VerifiedRoute, AdminRoute } from "@/lib/protected-route";
+import { AdminProtectedRoute } from "@/lib/admin-protected-route";
 
 function Router() {
   return (
@@ -26,6 +29,11 @@ function Router() {
       <Route path="/deals" component={DealsPage}/>
       <Route path="/deals/:id" component={DealDetailPage}/>
       <AdminRoute path="/admin" component={AdminPage}/>
+      
+      {/* Admin Routes */}
+      <Route path="/admin/login" component={AdminLoginPage}/>
+      <AdminProtectedRoute path="/admin" component={AdminDashboard}/>
+      
       <Route component={NotFound} />
     </Switch>
   );

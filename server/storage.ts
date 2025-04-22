@@ -29,6 +29,7 @@ const MemoryStore = createMemoryStore(session);
 export interface IStorage {
   // User methods
   getUser(id: number): Promise<User | undefined>;
+  getUsers(): Promise<User[]>;
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
@@ -36,6 +37,7 @@ export interface IStorage {
   
   // Verification document methods
   getVerificationDocuments(userId: number): Promise<VerificationDocument[]>;
+  getVerificationDocument(id: number): Promise<VerificationDocument | undefined>;
   createVerificationDocument(doc: InsertVerificationDocument): Promise<VerificationDocument>;
   updateVerificationDocumentStatus(id: number, status: string): Promise<VerificationDocument | undefined>;
   
@@ -64,6 +66,7 @@ export interface IStorage {
   deleteSavedDeal(id: number): Promise<boolean>;
   
   // Contact request methods
+  getContactRequest(id: number): Promise<ContactRequest | undefined>;
   getContactRequestsByUser(userId: number): Promise<ContactRequest[]>;
   createContactRequest(request: InsertContactRequest): Promise<ContactRequest>;
   updateContactRequest(id: number, request: Partial<ContactRequest>): Promise<ContactRequest | undefined>;
@@ -116,6 +119,10 @@ export class MemStorage implements IStorage {
   // User methods
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
+  }
+  
+  async getUsers(): Promise<User[]> {
+    return Array.from(this.users.values());
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
